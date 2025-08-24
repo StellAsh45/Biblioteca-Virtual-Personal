@@ -26,7 +26,7 @@ def ventana_login():
     # Fondo de la ventana del login
 
     try:
-        img = Image.open("Imagenes/fondo.jpeg") #Carga la imagen
+        img = Image.open("Imagenes/Login.jpeg") #Carga la imagen
         img = img.resize((600, 400), Image.Resampling.LANCZOS) # Simplemente redimensiona la imagen
         background_image = ImageTk.PhotoImage(img) # Convierte la imagen para Tkinter
         background_label = tk.Label(root, image=background_image) # Crea una etiqueta con la imagen
@@ -83,7 +83,7 @@ def ventana_registro():
 
     # Fondo
     try:
-        img = Image.open("Imagenes/Fondo.jpeg")
+        img = Image.open("Imagenes/Registro.jpeg")
         img = img.resize((600, 400), Image.Resampling.LANCZOS)
         background_image = ImageTk.PhotoImage(img)
         background_label = tk.Label(root, image=background_image)
@@ -102,7 +102,7 @@ def ventana_registro():
     entry_usuario = tk.Entry(frame, width=30, font=("Arial", 10))
     entry_usuario.pack(pady=5)
 
-    tk.Label(frame, text="Contraseña", font=("Arial", 12), bg="white").pack(pady=(10, 5))
+    tk.Label(frame, text="Crear contraseña", font=("Arial", 12), bg="white").pack(pady=(10, 5))
     entry_password = tk.Entry(frame, width=30, font=("Arial", 10), show="*")
     entry_password.pack(pady=5)
 
