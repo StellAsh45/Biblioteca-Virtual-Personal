@@ -9,4 +9,4 @@ def iniciar_gui(usuario):
     label = tk.Label(root, text=f"Bienvenido {usuario} a tu Biblioteca Virtual Personal")
     label.pack()
 
-    root.mainloop() 
+    root.mainloop()
