@@ -26,7 +26,7 @@ class ManejoUsuarios:
         for u in self.usuarios:
             if u["usuario"] == usuario:
                 return False
-        self.usuarios.append({"usuario": usuario, "contraseña": contraseña})
+        self.usuarios.append({"usuario": usuario, "contraseña": contraseña, "libros": []})
         self.guardar_usuarios()
         return True
     
