@@ -1,6 +1,7 @@
 [
     {
         "usuario": "Miguel",
-        "contraseña": "1234"
+        "contraseña": "1234",
+        "libros": []
     }
 ]
