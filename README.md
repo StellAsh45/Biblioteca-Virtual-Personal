@@ -22,3 +22,9 @@ Autores:
 - Maria Jose Barrera Martinez
 - Gloria Paola Castillo Mantilla
 - Juan David Ledesma Alegria
+
+# Instrucciones
+
+Para ejecutar el proyecto se debe ejecutar el comando:
+pip install -r requirements.txt
+Despues se debe ejecutar el archivo Main.py
