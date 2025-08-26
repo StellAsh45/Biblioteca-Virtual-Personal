@@ -2,10 +2,11 @@ import tkinter as tk
 from tkinter import messagebox
 from PIL import Image, ImageTk  # Para trabajar con imágenes (fondo con Pillow)
 from ManejoUsuarios import ManejoUsuarios
+from ManejoLibros import ManejoLibros
 import Biblioteca as Biblioteca
 
 gestor = ManejoUsuarios()
-
+gestor_libros = ManejoLibros(gestor)
 
 # Función para centrar ventana
 
@@ -57,7 +58,7 @@ def ventana_login():
         if gestor.login_usuario(usuario, contraseña):  # Llama al gestor de usuarios para verificar credenciales
             messagebox.showinfo("Login", f"Bienvenido {usuario}")
             root.destroy()
-            Biblioteca.iniciar_gui(usuario) # Si credenciales correctas, abrir biblioteca
+            Biblioteca.iniciar_gui(usuario,gestor_libros) # Si credenciales correctas, abrir biblioteca
         else:
             messagebox.showerror("Error", "Usuario o contraseña incorrectos") #Mensaje de error si credenciales incorrectas
 
