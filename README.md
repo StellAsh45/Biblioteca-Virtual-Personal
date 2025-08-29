@@ -29,9 +29,9 @@ Aplicación diseñada en python que permite registrar y organizar libros leídos
 
 Asegurarse de tener instalado python. Puedes descargarlo desde: [https://www.python.org/downloads/](https://www.python.org/downloads/)
 
-Asegurarse de tener instalada la ultima versión de **Python 3.13** o superior.
+Asegurarse de tener instalada la ultima versión de **Python 3.13** o superior y recordar añadir el PATH.
 
-Extraer el proyecto del archivo ZIP y abrir la carpeta que está adentro.
+Extraer el proyecto del archivo ZIP y abrir la carpeta que está adentro en Visual Studio Code
 
 ## Ejecución programa
 
@@ -42,7 +42,7 @@ Para ejecutar el proyecto, sigue estos pasos:
    ```
    pip install -r requirements.txt
    ```
-3. Ejecuta el archivo principal
+3. Ejecuta el archivo principal con el comando
    ```
    python Main.py
    ```

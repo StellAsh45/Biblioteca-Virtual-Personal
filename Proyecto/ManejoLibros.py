@@ -1,4 +1,3 @@
-import json
 
 class ManejoLibros:
     def __init__(self, gestor_usuarios):
@@ -34,14 +33,14 @@ class ManejoLibros:
         raise ValueError("Usuario no encontrado")
 
     def listar_libros(self, usuario):
-        """Devuelve la lista de libros de un usuario"""
+        #Devuelve la lista de libros de un usuario
         for u in self.gestor_usuarios.usuarios:
             if u["usuario"] == usuario:
                 return u.get("libros", [])
         return []
 
     def eliminar_libro(self, usuario, referencia):
-        """Elimina un libro de un usuario por su referencia"""
+        #Elimina un libro de un usuario por su referencia
         for u in self.gestor_usuarios.usuarios:
             if u["usuario"] == usuario:
                 libros = u.get("libros", [])

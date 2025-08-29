@@ -1,12 +1,15 @@
-import tkinter as tk
-from tkinter import messagebox
+import re # Para validación de contraseñas
+import os # Para manejar rutas de archivos
+import tkinter as tk # Interfaz gráfica
+from tkinter import messagebox # Para mostrar mensajes emergentes
 from PIL import Image, ImageTk  # Para trabajar con imágenes (fondo con Pillow)
-from ManejoUsuarios import ManejoUsuarios
-from ManejoLibros import ManejoLibros
-import Biblioteca as Biblioteca
+from ManejoUsuarios import ManejoUsuarios 
+from ManejoLibros import ManejoLibros 
+import Biblioteca as Biblioteca 
 
-gestor = ManejoUsuarios()
-gestor_libros = ManejoLibros(gestor)
+gestor_usuarios = ManejoUsuarios()
+gestor_libros = ManejoLibros(gestor_usuarios)
+directorio_base = os.path.dirname(os.path.abspath(__file__)) # Directorio base del proyecto
 
 # Función para centrar ventana
 
@@ -27,7 +30,8 @@ def ventana_login():
     # Fondo de la ventana del login
 
     try:
-        img = Image.open("Imagenes/Login.jpeg") #Carga la imagen
+        img_path = os.path.join(directorio_base, "Imagenes", "Login.jpeg")
+        img = Image.open(img_path) #Carga la imagen
         img = img.resize((600, 400), Image.Resampling.LANCZOS) # Simplemente redimensiona la imagen
         background_image = ImageTk.PhotoImage(img) # Convierte la imagen para Tkinter
         background_label = tk.Label(root, image=background_image) # Crea una etiqueta con la imagen
@@ -55,7 +59,17 @@ def ventana_login():
     def login():
         usuario = entry_usuario.get().strip() # Obtiene el usuario escrito en el campo de texto
         contraseña = entry_password.get().strip() # Obtiene la contraseña escrita en el campo de texto
-        if gestor.login_usuario(usuario, contraseña):  # Llama al gestor de usuarios para verificar credenciales
+        
+        if not usuario and not contraseña:
+            messagebox.showwarning("Error", "Por favor completa todos los campos.")
+            return
+        elif not usuario:
+            messagebox.showwarning("Error", "El campo de usuario no puede estar vacío.")
+            return
+        elif not contraseña:
+            messagebox.showwarning("Error", "El campo de contraseña no puede estar vacío.")
+            return
+        elif gestor_usuarios.login_usuario(usuario, contraseña):  # Llama al gestor de usuarios para verificar credenciales
             messagebox.showinfo("Login", f"Bienvenido {usuario}")
             root.destroy()
             Biblioteca.iniciar_gui(usuario,gestor_libros) # Si credenciales correctas, abrir biblioteca
@@ -84,7 +98,8 @@ def ventana_registro():
 
     # Fondo
     try:
-        img = Image.open("Imagenes/Registro.jpeg")
+        img_path = os.path.join(directorio_base, "Imagenes", "Registro.jpeg")
+        img = Image.open(img_path)
         img = img.resize((600, 400), Image.Resampling.LANCZOS)
         background_image = ImageTk.PhotoImage(img)
         background_label = tk.Label(root, image=background_image)
@@ -103,19 +118,40 @@ def ventana_registro():
     entry_usuario = tk.Entry(frame, width=30, font=("Arial", 10))
     entry_usuario.pack(pady=5)
 
-    tk.Label(frame, text="Crear contraseña", font=("Arial", 12), bg="white").pack(pady=(10, 5))
+    tk.Label(frame, text="Crear contraseña:", font=("Arial", 12), bg="white").pack(pady=(10, 5))
     entry_password = tk.Entry(frame, width=30, font=("Arial", 10), show="*")
     entry_password.pack(pady=5)
 
     def registro():
         usuario = entry_usuario.get().strip()
         contraseña = entry_password.get().strip()
+        errores_registro = [] # Array para guardar errores de validación
 
-        if not usuario or not contraseña:
+        if not usuario and not contraseña:
             messagebox.showwarning("Error", "Por favor completa todos los campos.")
             return
+        elif not usuario:
+            messagebox.showwarning("Error", "El campo de usuario no puede estar vacío.")
+            return
+        elif not contraseña:
+            messagebox.showwarning("Error", "El campo de contraseña no puede estar vacío.")
+            return
 
-        if gestor.registrar_usuario(usuario, contraseña):
+        if len(contraseña)<8:
+            errores_registro.append("La contraseña debe tener al menos 8 caracteres.")
+        if not re.search(r"[A-Z]", contraseña):
+            errores_registro.append("La contraseña debe contener al menos una letra mayúscula.")
+        if not re.search(r"\d", contraseña):
+            errores_registro.append("La contraseña debe contener al menos un número.")
+        if not re.search(r"[!@#$%^&*(),.?\":{}|<>]", contraseña):
+            errores_registro.append("La contraseña debe contener al menos un carácter especial.")
+
+        if errores_registro:
+            mensaje = "La contraseña debe contener:\n- " + "\n- ".join(errores_registro)
+            messagebox.showwarning("Error", mensaje)
+            return
+
+        if gestor_usuarios.registrar_usuario(usuario, contraseña):
             messagebox.showinfo("Registro", "Usuario registrado correctamente")
             root.destroy()
             ventana_login()

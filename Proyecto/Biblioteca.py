@@ -6,7 +6,8 @@ import re
 def iniciar_gui(usuario, gestor_libros):
     root = tk.Tk()
     root.title("Biblioteca Virtual Personal")
-    root.geometry("1000x750")
+    root.geometry("1700x800")
+    root.resizable(False,False)
 
     tk.Label(root, text=f"Bienvenido {usuario} a tu Biblioteca Virtual Personal",
              font=("Arial", 14, "bold")).pack(pady=10)
@@ -18,34 +19,61 @@ def iniciar_gui(usuario, gestor_libros):
     # Campos del formulario
     labels = ["Referencia", "Nombre", "Autor", "Año", "Genero", "Estado", "Fecha Inicio", "Fecha Fin"]
     entradas = {}
+    ref_frame = tk.Frame(frame)
+    ref_frame.grid(column=1, padx=5, pady=5)
 
     for i, label in enumerate(labels):
-        tk.Label(frame, text=label).grid(row=i, column=0, padx=5, pady=5, sticky="e")
-
+        tk.Label(frame, text=label).grid(row=i, column=0)
+        
+        ayuda = ""
         if label == "Referencia":
-            ref_frame = tk.Frame(frame)
-            ref_frame.grid(row=i, column=1, padx=5, pady=5, sticky="w")
-
+            ayuda = "Formato: AAA999 (A-Z,0-9)"
+            
             entry_ref = tk.Entry(ref_frame)
             entry_ref.pack(side="left")
             entradas[label] = entry_ref
 
-            # Label de ayuda para la referencia
-            tk.Label(ref_frame, text="Formato: AAA999 (A-Z,0-9)", fg="gray").pack(side="left", padx=8)
+            tk.Label(ref_frame, text=ayuda, fg="gray").pack(side="left", padx=8)
+
+        elif label == "Nombre":
+            ayuda = "Título del libro"
+            entry = tk.Entry(frame)
+            entry.grid(row=i, column=1, padx=5, pady=5, sticky="w")
+            entradas[label] = entry
+            tk.Label(frame, text=ayuda, fg="gray").grid(row=i, column=2, padx=8, sticky="w")
+
+        elif label == "Autor":
+            ayuda = "Nombre del autor"
+            entry = tk.Entry(frame)
+            entry.grid(row=i, column=1, padx=5, pady=5, sticky="w")
+            entradas[label] = entry
+            tk.Label(frame, text=ayuda, fg="gray").grid(row=i, column=2, padx=8, sticky="w")
+
+        elif label == "Año":
+            ayuda = "Año de publicación (1900-actual)"
+            entry = tk.Entry(frame)
+            entry.grid(row=i, column=1, padx=5, pady=5, sticky="w")
+            entradas[label] = entry
+            tk.Label(frame, text=ayuda, fg="gray").grid(row=i, column=2, padx=8, sticky="w")
 
         elif label == "Genero":
+            ayuda = "Selecciona el género"
             combo = ttk.Combobox(frame, values=["Novela", "Ciencia Ficción", "Historia", "Fantasía", "Ensayo", "Otro"])
-            combo.grid(row=i, column=1, padx=5, pady=5)
+            combo.grid(row=i, column=1, padx=5, pady=5, sticky="w")
             entradas[label] = combo
+            tk.Label(frame, text=ayuda, fg="gray").grid(row=i, column=2, padx=8, sticky="w")
 
         elif label == "Estado":
+            ayuda = "¿Leído o pendiente?"
             combo = ttk.Combobox(frame, values=["Leído", "Pendiente"])
-            combo.grid(row=i, column=1, padx=5, pady=5)
+            combo.grid(row=i, column=1, padx=5, pady=5, sticky="w")
             entradas[label] = combo
+            tk.Label(frame, text=ayuda, fg="gray").grid(row=i, column=2, padx=8, sticky="w")
 
-        elif label in ["Fecha Inicio", "Fecha Fin"]:
+        elif label == "Fecha Inicio":
+            ayuda = "Fecha en que comenzaste"
             subframe = tk.Frame(frame)
-            subframe.grid(row=i, column=1, padx=5, pady=5)
+            subframe.grid(row=i, column=1, padx=5, pady=5, sticky="w")
 
             dias = [str(d).zfill(2) for d in range(1, 32)]
             meses = [str(m).zfill(2) for m in range(1, 13)]
@@ -61,17 +89,34 @@ def iniciar_gui(usuario, gestor_libros):
             combo_anio.grid(row=0, column=2, padx=2)
 
             entradas[label] = (combo_dia, combo_mes, combo_anio)
+            tk.Label(frame, text=ayuda, fg="gray").grid(row=i, column=2, padx=8, sticky="w")
 
-        else:
-            entry = tk.Entry(frame)
-            entry.grid(row=i, column=1, padx=5, pady=5)
-            entradas[label] = entry
+        elif label == "Fecha Fin":
+            ayuda = "Fecha en que terminaste"
+            subframe = tk.Frame(frame)
+            subframe.grid(row=i, column=1, padx=5, pady=5, sticky="w")
+
+            dias = [str(d).zfill(2) for d in range(1, 32)]
+            meses = [str(m).zfill(2) for m in range(1, 13)]
+            anio_actual = datetime.datetime.now().year
+            anios = [str(a) for a in range(1900, anio_actual + 1)]
+
+            combo_dia = ttk.Combobox(subframe, values=dias, width=5)
+            combo_mes = ttk.Combobox(subframe, values=meses, width=5)
+            combo_anio = ttk.Combobox(subframe, values=anios, width=7)
+
+            combo_dia.grid(row=0, column=0, padx=2)
+            combo_mes.grid(row=0, column=1, padx=2)
+            combo_anio.grid(row=0, column=2, padx=2)
+
+            entradas[label] = (combo_dia, combo_mes, combo_anio)
+            tk.Label(frame, text=ayuda, fg="gray").grid(row=i, column=2, padx=8, sticky="w")
 
     # Tabla de libros
-    columnas = ("referencia", "nombre", "autor", "anio", "genero", "estado", "fecha_inicio", "fecha_fin")
+    columnas = ("Referencia", "Nombre", "Autor", "Año", "Género", "Estado", "Iniciado en", "Terminado en")
     tabla = ttk.Treeview(root, columns=columnas, show="headings", height=12)
     for col in columnas:
-        tabla.heading(col, text=col.capitalize())
+        tabla.heading(col, text=col)
         tabla.column(col, width=120, anchor="center")
     tabla.pack(pady=15)
 
