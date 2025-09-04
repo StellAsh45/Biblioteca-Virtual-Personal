@@ -5,13 +5,13 @@
         "libros": [
             {
                 "referencia": "AAA333",
-                "nombre": "Miguel",
-                "autor": "Migue",
-                "anio": 1901,
-                "genero": "Ciencia Ficción",
-                "estado": "Pendiente",
-                "fecha_inicio": "02/03/1904",
-                "fecha_fin": "05/04/1902"
+                "nombre": "aaaa",
+                "autor": "aaaaaa",
+                "anio": 1900,
+                "genero": "Novela",
+                "estado": "Leído",
+                "fecha_inicio": "03/02/1800",
+                "fecha_fin": "01/01/1803"
             }
         ]
     }
