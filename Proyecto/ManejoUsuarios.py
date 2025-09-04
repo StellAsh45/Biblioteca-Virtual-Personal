@@ -1,6 +1,6 @@
 import json
 import os
-
+# Metodo para manejar los usuarios y sus credenciales
 class ManejoUsuarios:
     ARCHIVO_USUARIOS = "Proyecto/usuarios.json"
 
