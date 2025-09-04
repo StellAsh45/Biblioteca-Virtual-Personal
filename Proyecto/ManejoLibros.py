@@ -4,7 +4,7 @@ class ManejoLibros:
         self.gestor_usuarios = gestor_usuarios
 
     # Agrega un libro a la lista de un usuario
-    def agregar_libro(self, usuario, referencia, nombre, autor, anio, genero, estado, fecha_inicio, fecha_fin):
+    def agregar_libro(self, usuario, referencia, titulo, autor, anio, genero, estado, fecha_inicio, fecha_fin):
         for u in self.gestor_usuarios.usuarios:
             if u["usuario"] == usuario:
                 # Validar que la referencia no exista ya
@@ -17,7 +17,7 @@ class ManejoLibros:
 
                 nuevo_libro = {
                     "referencia": referencia,
-                    "nombre": nombre,
+                    "titulo": titulo,
                     "autor": autor,
                     "anio": anio,
                     "genero": genero,
