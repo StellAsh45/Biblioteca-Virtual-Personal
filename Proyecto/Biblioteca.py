@@ -50,7 +50,7 @@ def iniciar_gui(usuario, gestor_libros):
             tk.Label(frame, text=ayuda, fg="gray").grid(row=i, column=2, padx=8, sticky="w")
 
         elif label == "Año":
-            ayuda = "Año de publicación (1800-actual)"
+            ayuda = "Año de publicación (0-actual)"
             entry = tk.Entry(frame)
             entry.grid(row=i, column=1, padx=5, pady=5, sticky="w")
             entradas[label] = entry
@@ -228,8 +228,8 @@ def iniciar_gui(usuario, gestor_libros):
             else:
                 anio_int = int(anio)
                 anio_actual = datetime.datetime.now().year
-                if anio_int < 1800 or anio_int > anio_actual:
-                    errores.append(f"Año entre 1800 y {anio_actual}.")
+                if anio_int < 0 or anio_int > anio_actual:
+                    errores.append(f"Año entre 0 y {anio_actual}.")
 
             # Fechas
             try:
