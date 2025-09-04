@@ -1,4 +1,4 @@
-
+# Metodo para manejar los libros de los usuarios
 class ManejoLibros:
     def __init__(self, gestor_usuarios):
         self.gestor_usuarios = gestor_usuarios
