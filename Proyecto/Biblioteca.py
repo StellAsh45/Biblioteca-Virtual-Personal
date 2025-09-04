@@ -2,7 +2,7 @@ import tkinter as tk
 from tkinter import ttk, messagebox
 import datetime
 import re
-
+#Gui para la biblioteca virtual personal
 def iniciar_gui(usuario, gestor_libros):
     root = tk.Tk()
     root.title("Biblioteca Virtual Personal")
