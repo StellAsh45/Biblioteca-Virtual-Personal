@@ -126,6 +126,41 @@ def iniciar_gui(usuario, gestor_libros):
         tabla.column(col, width=120, anchor="center")
     tabla.pack(pady=15)
 
+
+
+    # --- Frame de filtros ---
+    filtro_frame = tk.LabelFrame(root, text="Filtros de búsqueda")
+    filtro_frame.pack(pady=10, fill="x")
+
+    # Filtro por género
+    genero_var = tk.StringVar()
+    tk.Label(filtro_frame, text="Género:").grid(row=0, column=0, padx=5)
+    combo_genero = ttk.Combobox(filtro_frame, textvariable=genero_var,
+                               values=["", "Novela", "Ciencia Ficción", "Historia", "Fantasía", "Ensayo", "Otro"],
+                               state="readonly", width=15)
+    combo_genero.grid(row=0, column=1, padx=5)
+
+        # Filtro por estado
+    estado_var = tk.StringVar()
+    tk.Label(filtro_frame, text="Estado:").grid(row=0, column=2, padx=5)
+    combo_estado = ttk.Combobox(filtro_frame, textvariable=estado_var,
+                               values=["", "Leído", "Pendiente"],
+                               state="readonly", width=15)
+    combo_estado.grid(row=0, column=3, padx=5)
+
+    # Filtro por autor
+    autor_var = tk.StringVar()
+    tk.Label(filtro_frame, text="Autor:").grid(row=0, column=4, padx=5)
+    entry_autor = tk.Entry(filtro_frame, textvariable=autor_var, width=20)
+    entry_autor.grid(row=0, column=5, padx=5)
+
+    # Botones de filtros
+    tk.Button(filtro_frame, text="Aplicar filtros", command=lambda: aplicar_filtros()).grid(row=0, column=8, padx=10)
+    tk.Button(filtro_frame, text="Limpiar filtros", command=lambda: limpiar_filtros()).grid(row=0, column=9, padx=10)
+
+
+
+
     # Estado de edición
     libro_editando = {"referencia": None}
 
@@ -273,6 +308,37 @@ def iniciar_gui(usuario, gestor_libros):
 
         except Exception as e:
             messagebox.showerror("Error", str(e))
+
+
+
+    def aplicar_filtros():
+        tabla.delete(*tabla.get_children())
+        libros = gestor_libros.listar_libros(usuario)
+
+        # Aplicar filtros
+        if genero_var.get():
+            libros = [l for l in libros if l["genero"].lower() == genero_var.get().lower()]
+        if estado_var.get():
+            libros = [l for l in libros if l["estado"].lower() == estado_var.get().lower()]
+        if autor_var.get():
+            libros = [l for l in libros if autor_var.get().lower() in l["autor"].lower()]
+       
+
+        # Mostrar en tabla
+        for libro in libros:
+            tabla.insert("", "end", values=(
+                libro['referencia'], libro['nombre'], libro['autor'],
+                libro['anio'], libro['genero'], libro['estado'],
+                libro['fecha_inicio'], libro['fecha_fin']
+            ))
+
+    def limpiar_filtros():
+        genero_var.set("")
+        estado_var.set("")
+        autor_var.set("")
+        actualizar_lista()
+
+
 
     def eliminar_libro():
         try:

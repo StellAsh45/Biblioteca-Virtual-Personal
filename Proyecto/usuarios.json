@@ -5,13 +5,43 @@
         "libros": [
             {
                 "referencia": "AAA333",
-                "nombre": "aaaa",
+                "nombre": "TRES TRISTES TIGRES TRIGABAN TRIGO EN EL TRIGAL",
                 "autor": "aaaaaa",
-                "anio": 1900,
+                "anio": 1800,
                 "genero": "Novela",
                 "estado": "Leído",
                 "fecha_inicio": "03/02/1800",
                 "fecha_fin": "01/01/1803"
+            },
+            {
+                "referencia": "BBC199",
+                "nombre": "ODISEA",
+                "autor": "SIMPSON",
+                "anio": 1900,
+                "genero": "Ciencia Ficción",
+                "estado": "Pendiente",
+                "fecha_inicio": "03/04/1933",
+                "fecha_fin": "04/03/1946"
+            },
+            {
+                "referencia": "XSS123",
+                "nombre": "MULAN",
+                "autor": "DISNEY",
+                "anio": 1950,
+                "genero": "Fantasía",
+                "estado": "Leído",
+                "fecha_inicio": "03/03/1968",
+                "fecha_fin": "03/05/1996"
+            },
+            {
+                "referencia": "XYX999",
+                "nombre": "GRRR",
+                "autor": "LUGO",
+                "anio": 2000,
+                "genero": "Ciencia Ficción",
+                "estado": "Pendiente",
+                "fecha_inicio": "27/05/2016",
+                "fecha_fin": "06/04/2017"
             }
         ]
     }
