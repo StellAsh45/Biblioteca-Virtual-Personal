@@ -6,6 +6,8 @@ from PIL import Image, ImageTk  # Para trabajar con imágenes (fondo con Pillow)
 from ManejoUsuarios import ManejoUsuarios 
 from ManejoLibros import ManejoLibros 
 import Biblioteca as Biblioteca 
+# Programa principal de la biblioteca virtual personal
+# Inicialización de gestores de usuarios y libros
 
 gestor_usuarios = ManejoUsuarios()
 gestor_libros = ManejoLibros(gestor_usuarios)
@@ -47,12 +49,34 @@ def ventana_login():
     tk.Label(frame, text="Ingreso a tu biblioteca virtual", font=("Arial", 16), bg="white").pack(pady=(20, 5)) # Label del frame
 
     tk.Label(frame, text="Usuario:", font=("Arial", 12), bg="white").pack(pady=(20, 5)) # Label usuario
-    entry_usuario = tk.Entry(frame, width=30, font=("Arial", 10)) # Campo de texto usuario
+    entry_usuario = tk.Entry(frame, width=20, font=("Arial", 10)) # Campo de texto usuario
     entry_usuario.pack() # Pone el cuadro de texto en el frame
 
     tk.Label(frame, text="Contraseña:", font=("Arial", 12), bg="white").pack(pady=(10, 5))
-    entry_password = tk.Entry(frame, width=30, font=("Arial", 10), show="*")
-    entry_password.pack(pady=5)
+    
+    # Frame que contiene el entry y el boton del ojito
+    pass_frame = tk.Frame(frame, bg="white")
+    pass_frame.pack(pady=5)
+
+    entry_password = tk.Entry(pass_frame, width=16, font=("Arial", 10), show="*")
+    entry_password.pack(side="left", padx=(0, 5))
+
+    # Variable de estado para el ojito de la contraseña
+    mostrar_contrasena = tk.BooleanVar(value=False)
+
+    def toggle_password():
+        if mostrar_contrasena.get():
+            entry_password.config(show="*")#Oculta
+            btn_toggle.config(text="👁")
+            mostrar_contrasena.set(False)
+        else:
+            entry_password.config(show="")#Muestra
+            btn_toggle.config(text="🙈")      
+            mostrar_contrasena.set(True)
+
+    # Botón ojo
+    btn_toggle = tk.Button(pass_frame, text="👁", command=toggle_password, bg="white", font=("Arial", 7))
+    btn_toggle.pack(side="left")
 
     # Validacion de credenciales
 
@@ -115,11 +139,11 @@ def ventana_registro():
     tk.Label(frame, text="Registro a tu biblioteca virtual", font=("Arial", 16), bg="white").pack(pady=(20, 5))
 
     tk.Label(frame, text="Usuario:", font=("Arial", 12), bg="white").pack(pady=(20, 5))
-    entry_usuario = tk.Entry(frame, width=30, font=("Arial", 10))
+    entry_usuario = tk.Entry(frame, width=20, font=("Arial", 10))
     entry_usuario.pack(pady=5)
 
     tk.Label(frame, text="Crear contraseña:", font=("Arial", 12), bg="white").pack(pady=(10, 5))
-    entry_password = tk.Entry(frame, width=30, font=("Arial", 10), show="*")
+    entry_password = tk.Entry(frame, width=20, font=("Arial", 10))
     entry_password.pack(pady=5)
 
     def registro():
