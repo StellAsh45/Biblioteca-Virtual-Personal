@@ -2,6 +2,17 @@
     {
         "usuario": "Miguel",
         "contraseña": "Miguel28.",
-        "libros": []
+        "libros": [
+            {
+                "referencia": "AAA333",
+                "nombre": "Miguel",
+                "autor": "Migue",
+                "anio": 1901,
+                "genero": "Ciencia Ficción",
+                "estado": "Pendiente",
+                "fecha_inicio": "02/03/1904",
+                "fecha_fin": "05/04/1902"
+            }
+        ]
     }
 ]
