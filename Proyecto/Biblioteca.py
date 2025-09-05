@@ -112,59 +112,97 @@ def iniciar_gui(usuario, gestor_libros):
 
             entradas[label] = (combo_dia, combo_mes, combo_anio)
             tk.Label(field_frame, text=ayuda, fg="gray", font=("Arial", 8)).pack(side="left", padx=8)
-
-    # ----------- TABLA -----------
+  
+    
+    #--- Tabla ---
     tabla_frame = tk.Frame(top_frame, bd=2, relief="groove")
-    tabla_frame.pack(side="right", padx=10, pady=10)
+    tabla_frame.pack(side="right", padx=8, pady=8, fill="both", expand=True)
+
+    # --- Filtros ---
+    filtro_frame = tk.LabelFrame(tabla_frame, text="Filtros de búsqueda", padx=10, pady=10)
+    filtro_frame.pack(side="top", fill="x", padx=5, pady=5)
+
+    filtros_vars = {}
+
+    # Obtener libros para poblar combobox dinámicos
+    libros_existentes = gestor_libros.listar_libros(usuario)
+
+    # Función auxiliar para obtener valores únicos por campo
+    def valores_unicos(campo):
+        return sorted(list(set([str(libro[campo]) for libro in libros_existentes])))
+
+    # --- Referencia ---x
+    filtros_vars["referencia"] = tk.StringVar()
+    tk.Label(filtro_frame, text="Referencia:").grid(row=0, column=0, padx=5, pady=2)
+    ttk.Combobox(filtro_frame, textvariable=filtros_vars["referencia"],
+                values=[""] + valores_unicos("referencia"),
+                width=12, state="readonly").grid(row=0, column=1, padx=5, pady=2)
+
+    # --- Título ---x
+    filtros_vars["titulo"] = tk.StringVar()
+    tk.Label(filtro_frame, text="Título:").grid(row=0, column=2, padx=5, pady=2)
+    ttk.Combobox(filtro_frame, textvariable=filtros_vars["titulo"],
+                values=[""] + valores_unicos("titulo"),
+                width=15, state="readonly").grid(row=0, column=3, padx=5, pady=2)
+
+    # --- Autor ---x
+    filtros_vars["autor"] = tk.StringVar()
+    tk.Label(filtro_frame, text="Autor:").grid(row=0, column=4, padx=5, pady=2)
+    ttk.Combobox(filtro_frame, textvariable=filtros_vars["autor"],
+                values=[""] + valores_unicos("autor"),
+                width=15, state="readonly").grid(row=0, column=5, padx=5, pady=2)
+
+    # --- Género ---x
+    filtros_vars["genero"] = tk.StringVar()
+    tk.Label(filtro_frame, text="Género:").grid(row=1, column=0, padx=5, pady=2)
+    ttk.Combobox(filtro_frame, textvariable=filtros_vars["genero"],
+                values=["", "Novela", "Ciencia Ficción", "Historia", "Fantasía", "Ensayo", "Otro"],
+                width=15, state="readonly").grid(row=1, column=1, padx=5, pady=2)
+
+    # --- Estado ---x
+    filtros_vars["estado"] = tk.StringVar()
+    tk.Label(filtro_frame, text="Estado:").grid(row=1, column=2, padx=5, pady=2)
+    ttk.Combobox(filtro_frame, textvariable=filtros_vars["estado"],
+                values=["", "Leído", "Pendiente"],
+                width=12, state="readonly").grid(row=1, column=3, padx=5, pady=2)
+
+    # Botones
+    tk.Button(filtro_frame, text="Aplicar filtros", command=lambda: aplicar_filtros()).grid(row=0, column=6, padx=10, pady=2)
+    tk.Button(filtro_frame, text="Limpiar filtros", command=lambda: limpiar_filtros()).grid(row=0, column=7, padx=10, pady=2)
+
+    # --- Tabla ---
+    tabla_container = tk.Frame(tabla_frame)
+    tabla_container.pack(side="top", fill="both", expand=True)   
 
     columnas = ("Referencia", "Título", "Autor", "Año publicación", "Género", "Estado", "Iniciado en", "Terminado en")
 
+    # Scrollbars
     scroll_y = tk.Scrollbar(tabla_frame, orient="vertical")
-    tabla = ttk.Treeview(tabla_frame, columns=columnas, show="headings",
-                         height=10, yscrollcommand=scroll_y.set)  # 👈 menos altura
-
-    scroll_y.config(command=tabla.yview)
     scroll_y.pack(side="right", fill="y")
-    tabla.pack(side="left", fill="both")
 
+    scroll_x = tk.Scrollbar(tabla_frame, orient="horizontal")
+    scroll_x.pack(side="bottom", fill="x")
+
+    # Treeview con scrolls
+    tabla = ttk.Treeview(
+        tabla_frame,
+        columns=columnas,
+        show="headings",
+        height=10,
+        yscrollcommand=scroll_y.set,
+        xscrollcommand=scroll_x.set
+    )
+
+    # Conectar scrollbars
+    scroll_y.config(command=tabla.yview)
+    scroll_x.config(command=tabla.xview)
+
+    tabla.pack(side="left", fill="both", expand=True)
+
+    # Configuración de columnas
     for col in columnas:
         tabla.heading(col, text=col)
         tabla.column(col, width=120, anchor="center")
-
-
-
-    # --- Frame de filtros ---
-    filtro_frame = tk.LabelFrame(root, text="Filtros de búsqueda")
-    filtro_frame.pack(pady=10, fill="x")
-
-    # Filtro por género
-    genero_var = tk.StringVar()
-    tk.Label(filtro_frame, text="Género:").grid(row=0, column=0, padx=5)
-    combo_genero = ttk.Combobox(filtro_frame, textvariable=genero_var,
-                               values=["", "Novela", "Ciencia Ficción", "Historia", "Fantasía", "Ensayo", "Otro"],
-                               state="readonly", width=15)
-    combo_genero.grid(row=0, column=1, padx=5)
-
-        # Filtro por estado
-    estado_var = tk.StringVar()
-    tk.Label(filtro_frame, text="Estado:").grid(row=0, column=2, padx=5)
-    combo_estado = ttk.Combobox(filtro_frame, textvariable=estado_var,
-                               values=["", "Leído", "Pendiente"],
-                               state="readonly", width=15)
-    combo_estado.grid(row=0, column=3, padx=5)
-
-    # Filtro por autor
-    autor_var = tk.StringVar()
-    tk.Label(filtro_frame, text="Autor:").grid(row=0, column=4, padx=5)
-    entry_autor = tk.Entry(filtro_frame, textvariable=autor_var, width=20)
-    entry_autor.grid(row=0, column=5, padx=5)
-
-    # Botones de filtros
-    tk.Button(filtro_frame, text="Aplicar filtros", command=lambda: aplicar_filtros()).grid(row=0, column=8, padx=10)
-    tk.Button(filtro_frame, text="Limpiar filtros", command=lambda: limpiar_filtros()).grid(row=0, column=9, padx=10)
-
-
-
 
     # Estado de edición
     libro_editando = {"referencia": None}
@@ -321,28 +359,29 @@ def iniciar_gui(usuario, gestor_libros):
         libros = gestor_libros.listar_libros(usuario)
 
         # Aplicar filtros
-        if genero_var.get():
-            libros = [l for l in libros if l["genero"].lower() == genero_var.get().lower()]
-        if estado_var.get():
-            libros = [l for l in libros if l["estado"].lower() == estado_var.get().lower()]
-        if autor_var.get():
-            libros = [l for l in libros if autor_var.get().lower() in l["autor"].lower()]
-       
+        if filtros_vars["referencia"].get():
+            libros = [l for l in libros if l["referencia"].lower() == filtros_vars["referencia"].get().lower()]
+        if filtros_vars["titulo"].get():
+            libros = [l for l in libros if filtros_vars["titulo"].get().lower() in l["titulo"].lower()]
+        if filtros_vars["autor"].get():
+            libros = [l for l in libros if filtros_vars["autor"].get().lower() == l["autor"].lower()]
+        if filtros_vars["genero"].get():
+            libros = [l for l in libros if l["genero"].lower() == filtros_vars["genero"].get().lower()]
+        if filtros_vars["estado"].get():
+            libros = [l for l in libros if l["estado"].lower() == filtros_vars["estado"].get().lower()]
 
         # Mostrar en tabla
         for libro in libros:
             tabla.insert("", "end", values=(
-                libro['referencia'], libro['nombre'], libro['autor'],
+                libro['referencia'], libro['titulo'], libro['autor'],
                 libro['anio'], libro['genero'], libro['estado'],
                 libro['fecha_inicio'], libro['fecha_fin']
             ))
 
     def limpiar_filtros():
-        genero_var.set("")
-        estado_var.set("")
-        autor_var.set("")
+        for var in filtros_vars.values():
+            var.set("")  # limpia todos los combobox
         actualizar_lista()
-
 
 
     def eliminar_libro():
