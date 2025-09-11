@@ -1,173 +1,188 @@
-import re # Para validación de contraseñas
-import os # Para manejar rutas de archivos
-import tkinter as tk # Interfaz gráfica
-from tkinter import messagebox # Para mostrar mensajes emergentes
-from PIL import Image, ImageTk  # Para trabajar con imágenes (fondo con Pillow)
-from ManejoUsuarios import ManejoUsuarios 
-from ManejoLibros import ManejoLibros 
-import Biblioteca as Biblioteca 
-# Programa principal de la biblioteca virtual personal
-# Inicialización de gestores de usuarios y libros
+import re
+import os
+import tkinter as tk
+from tkinter import messagebox
+from PIL import Image, ImageTk
+from ManejoUsuarios import ManejoUsuarios
+from ManejoLibros import ManejoLibros
+import Biblioteca
 
-gestor_usuarios = ManejoUsuarios()
-gestor_libros = ManejoLibros(gestor_usuarios)
-directorio_base = os.path.dirname(os.path.abspath(__file__)) # Directorio base del proyecto
+class Ventana_Ingreso:
+    def __init__(self):
+        # gestores
+        self.gestor_usuarios = ManejoUsuarios()
+        self.gestor_libros = ManejoLibros(self.gestor_usuarios)
+        self.directorio_base = os.path.dirname(os.path.abspath(__file__))
 
-# Función para centrar ventana
+        # ventana principal
+        self.root = tk.Tk()
+        self.root.title("Ingreso de usuario - Biblioteca Virtual")
+        self.root.resizable(False, False)
 
-def centrar_ventana(ventana, ancho, alto):
-    ventana.update_idletasks() # Actualiza el estado de la ventana
-    x = (ventana.winfo_screenwidth() // 2) - (ancho // 2) # Calcula coordenada X
-    y = (ventana.winfo_screenheight() // 2) - (alto // 2) # Calcula coordenada Y
-    ventana.geometry(f"{ancho}x{alto}+{x}+{y}") # Establece el tamaño y posición de la ventana
+        # centrar y mostrar login
+        self.centrar_ventana(600, 400)
+        self.mostrar_login()
+        self.root.mainloop()
 
-# Ventana de Login
+    def centrar_ventana(self, ancho, alto):
+        """Centra la ventana self.root en pantalla."""
+        self.root.update_idletasks()
+        x = (self.root.winfo_screenwidth() // 2) - (ancho // 2)
+        y = (self.root.winfo_screenheight() // 2) - (alto // 2)
+        self.root.geometry(f"{ancho}x{alto}+{x}+{y}")
 
-def ventana_login():
-    root = tk.Tk()
-    root.title("Ingreso de usuario - Biblioteca Virtual")
-    root.resizable(False, False) # Evita redimensionar la ventana
-    centrar_ventana(root, 600, 400) # Llama a la función para centrar la ventana
+    def mostrar_login(self):
+        """Construye la interfaz de login (incluye toggle del password)."""
+        # fondo (si existe la imagen)
+        try:
+            img_path = os.path.join(self.directorio_base, "Imagenes", "Login.jpeg")
+            img = Image.open(img_path).resize((600, 400), Image.Resampling.LANCZOS)
+            self._bg_image = ImageTk.PhotoImage(img)  # guardamos en self para evitar GC
+            background_label = tk.Label(self.root, image=self._bg_image)
+            background_label.place(x=0, y=0, relwidth=1, relheight=1)
+        except Exception:
+            self.root.configure(bg="#2B3F54")
 
-    # Fondo de la ventana del login
+        # frame central
+        frame = tk.Frame(self.root, bg="white", bd=2, relief="solid")
+        frame.place(relx=0.5, rely=0.5, anchor="center", width=400, height=300)
 
-    try:
-        img_path = os.path.join(directorio_base, "Imagenes", "Login.jpeg")
-        img = Image.open(img_path) #Carga la imagen
-        img = img.resize((600, 400), Image.Resampling.LANCZOS) # Simplemente redimensiona la imagen
-        background_image = ImageTk.PhotoImage(img) # Convierte la imagen para Tkinter
-        background_label = tk.Label(root, image=background_image) # Crea una etiqueta con la imagen
-        background_label.place(x=0, y=0, relwidth=1, relheight=1) # Coloca la imagen en la ventana
-    except:
-        root.configure(bg="#2B3F54") # Si por algun motivo no carga la imagen, pone este color de fondo indicando que pasa algo
+        tk.Label(frame, text="Ingreso a tu biblioteca virtual", font=("Arial", 16), bg="white").pack(pady=(20, 5))
 
-    # Frame y Labels
+        tk.Label(frame, text="Usuario:", font=("Arial", 12), bg="white").pack(pady=(10, 5))
+        self.entry_usuario = tk.Entry(frame, width=20, font=("Arial", 10))
+        self.entry_usuario.pack()
 
-    frame = tk.Frame(root, bg="white", bd=2 , relief="solid") # Crea un frame blanco con borde solido
-    frame.place(relx=0.5, rely=0.5, anchor="center", width=400, height=300) # Centra el frame en la ventana se fija en ejes x e y lo ubica en el centro y cambia tamaño
+        tk.Label(frame, text="Contraseña:", font=("Arial", 12), bg="white").pack(pady=(10, 5))
 
-    tk.Label(frame, text="Ingreso a tu biblioteca virtual", font=("Arial", 16), bg="white").pack(pady=(20, 5)) # Label del frame
+        # frame para entry + botón toggle (ojito)
+        pass_frame = tk.Frame(frame, bg="white")
+        pass_frame.pack(pady=5)
 
-    tk.Label(frame, text="Usuario:", font=("Arial", 12), bg="white").pack(pady=(20, 5)) # Label usuario
-    entry_usuario = tk.Entry(frame, width=20, font=("Arial", 10)) # Campo de texto usuario
-    entry_usuario.pack() # Pone el cuadro de texto en el frame
+        self.entry_password = tk.Entry(pass_frame, width=16, font=("Arial", 10), show="*")
+        self.entry_password.pack(side="left", padx=(0, 5))
 
-    tk.Label(frame, text="Contraseña:", font=("Arial", 12), bg="white").pack(pady=(10, 5))
-    
-    # Frame que contiene el entry y el boton del ojito
-    pass_frame = tk.Frame(frame, bg="white")
-    pass_frame.pack(pady=5)
+        self.mostrar_contrasena = tk.BooleanVar(value=False)
 
-    entry_password = tk.Entry(pass_frame, width=16, font=("Arial", 10), show="*")
-    entry_password.pack(side="left", padx=(0, 5))
+        def toggle_password():
+            if self.mostrar_contrasena.get():
+                self.entry_password.config(show="*")
+                btn_toggle.config(text="👁")
+                self.mostrar_contrasena.set(False)
+            else:
+                self.entry_password.config(show="")
+                btn_toggle.config(text="🙈")
+                self.mostrar_contrasena.set(True)
 
-    # Variable de estado para el ojito de la contraseña
-    mostrar_contrasena = tk.BooleanVar(value=False)
+        btn_toggle = tk.Button(pass_frame, text="👁", command=toggle_password, bg="white", font=("Arial", 7))
+        btn_toggle.pack(side="left")
 
-    def toggle_password():
-        if mostrar_contrasena.get():
-            entry_password.config(show="*")#Oculta
-            btn_toggle.config(text="👁")
-            mostrar_contrasena.set(False)
-        else:
-            entry_password.config(show="")#Muestra
-            btn_toggle.config(text="🙈")      
-            mostrar_contrasena.set(True)
+        # botones principales
+        tk.Button(frame, text="Iniciar sesión", font=("Arial", 10), command=self.login).pack(pady=10)
+        tk.Button(frame, text="Registrarse", font=("Arial", 10), command=self.ir_a_registro).pack()
 
-    # Botón ojo
-    btn_toggle = tk.Button(pass_frame, text="👁", command=toggle_password, bg="white", font=("Arial", 7))
-    btn_toggle.pack(side="left")
+    def login(self):
+        usuario = self.entry_usuario.get().strip()
+        contrasena = self.entry_password.get().strip()
 
-    # Validacion de credenciales
-
-    def login():
-        usuario = entry_usuario.get().strip() # Obtiene el usuario escrito en el campo de texto
-        contraseña = entry_password.get().strip() # Obtiene la contraseña escrita en el campo de texto
-        
-        if not usuario and not contraseña:
+        if not usuario and not contrasena:
             messagebox.showwarning("Error", "Por favor completa todos los campos.")
             return
-        elif not usuario:
+        if not usuario:
             messagebox.showwarning("Error", "El campo de usuario no puede estar vacío.")
             return
-        elif not contraseña:
-            messagebox.showwarning("Error", "El campo de contraseña no puede estar vacío.")
-            return
-        elif gestor_usuarios.login_usuario(usuario, contraseña):  # Llama al gestor de usuarios para verificar credenciales
-            messagebox.showinfo("Login", f"Bienvenido {usuario}")
-            root.destroy()
-            Biblioteca.iniciar_gui(usuario,gestor_libros) # Si credenciales correctas, abrir biblioteca
-        else:
-            messagebox.showerror("Error", "Usuario o contraseña incorrectos") #Mensaje de error si credenciales incorrectas
-
-    # Cambio de ventana de login a registro
-
-    def ir_a_registro():
-        root.destroy() # Cierra la ventana de login
-        ventana_registro() # Abre la ventana de registro
-
-    # Botones
-    tk.Button(frame, text="Iniciar sesión", font=("Arial", 10), command=login).pack(pady=10) # Llama a la función login al hacer click
-    tk.Button(frame, text="Registrarse", font=("Arial", 10), command=ir_a_registro).pack() # Llama a la función ir_a_registro al hacer click
-
-    root.mainloop() # Inicia el bucle principal de la ventana
-
-# Ventana de Registro
-
-def ventana_registro():
-    root = tk.Tk()
-    root.title("Registro de usuario - Biblioteca Virtual")
-    root.resizable(False, False)
-    centrar_ventana(root, 600, 400)
-
-    # Fondo
-    try:
-        img_path = os.path.join(directorio_base, "Imagenes", "Registro.jpeg")
-        img = Image.open(img_path)
-        img = img.resize((600, 400), Image.Resampling.LANCZOS)
-        background_image = ImageTk.PhotoImage(img)
-        background_label = tk.Label(root, image=background_image)
-        background_label.place(x=0, y=0, relwidth=1, relheight=1)
-        background_label.image = background_image
-    except:
-        root.configure(bg="#2B3F54")
-
-    # Frame
-    frame = tk.Frame(root, bg="white", bd=2, relief="solid")
-    frame.place(relx=0.5, rely=0.5, anchor="center", width=400, height=300)
-
-    tk.Label(frame, text="Registro a tu biblioteca virtual", font=("Arial", 16), bg="white").pack(pady=(20, 5))
-
-    tk.Label(frame, text="Usuario:", font=("Arial", 12), bg="white").pack(pady=(20, 5))
-    entry_usuario = tk.Entry(frame, width=20, font=("Arial", 10))
-    entry_usuario.pack(pady=5)
-
-    tk.Label(frame, text="Crear contraseña:", font=("Arial", 12), bg="white").pack(pady=(10, 5))
-    entry_password = tk.Entry(frame, width=20, font=("Arial", 10))
-    entry_password.pack(pady=5)
-
-    def registro():
-        usuario = entry_usuario.get().strip()
-        contraseña = entry_password.get().strip()
-        errores_registro = [] # Array para guardar errores de validación
-
-        if not usuario and not contraseña:
-            messagebox.showwarning("Error", "Por favor completa todos los campos.")
-            return
-        elif not usuario:
-            messagebox.showwarning("Error", "El campo de usuario no puede estar vacío.")
-            return
-        elif not contraseña:
+        if not contrasena:
             messagebox.showwarning("Error", "El campo de contraseña no puede estar vacío.")
             return
 
-        if len(contraseña)<8:
+        try:
+            if self.gestor_usuarios.login_usuario(usuario, contrasena):
+                messagebox.showinfo("Login", f"Bienvenido {usuario}")
+                self.root.destroy()
+                # mantenemos compatibilidad con tu Biblioteca existente
+                Biblioteca.BibliotecaGUI(usuario, self.gestor_libros)
+            else:
+                messagebox.showerror("Error", "Usuario o contraseña incorrectos")
+        except Exception as e:
+            messagebox.showerror("Error", f"Ocurrió un error al intentar iniciar sesión:\n{e}")
+
+    def ir_a_registro(self):
+        """Cierra login y abre el registro (instancia la ventana de registro)."""
+        self.root.destroy()
+        Ventana_Registro(self.gestor_usuarios, self.directorio_base)
+
+
+class Ventana_Registro:
+    def __init__(self, gestor_usuarios, directorio_base=None):
+        self.gestor_usuarios = gestor_usuarios
+        self.directorio_base = directorio_base or os.path.dirname(os.path.abspath(__file__))
+
+        self.root = tk.Tk()
+        self.root.title("Registro de usuario - Biblioteca Virtual")
+        self.root.resizable(False, False)
+        self.centrar_ventana(600, 400)
+        self.mostrar_registro()
+        self.root.mainloop()
+
+    def centrar_ventana(self, ancho, alto):
+        self.root.update_idletasks()
+        x = (self.root.winfo_screenwidth() // 2) - (ancho // 2)
+        y = (self.root.winfo_screenheight() // 2) - (alto // 2)
+        self.root.geometry(f"{ancho}x{alto}+{x}+{y}")
+
+    def mostrar_registro(self):
+        # fondo (opcional)
+        try:
+            img_path = os.path.join(self.directorio_base, "Imagenes", "Registro.jpeg")
+            img = Image.open(img_path).resize((600, 400), Image.Resampling.LANCZOS)
+            self._bg_image = ImageTk.PhotoImage(img)
+            background_label = tk.Label(self.root, image=self._bg_image)
+            background_label.place(x=0, y=0, relwidth=1, relheight=1)
+        except Exception:
+            self.root.configure(bg="#2B3F54")
+
+        frame = tk.Frame(self.root, bg="white", bd=2, relief="solid")
+        frame.place(relx=0.5, rely=0.5, anchor="center", width=400, height=300)
+
+        tk.Label(frame, text="Registro a tu biblioteca virtual", font=("Arial", 16), bg="white").pack(pady=(20, 5))
+
+        tk.Label(frame, text="Usuario:", font=("Arial", 12), bg="white").pack(pady=(10, 5))
+        self.entry_usuario = tk.Entry(frame, width=20, font=("Arial", 10))
+        self.entry_usuario.pack(pady=5)
+
+        tk.Label(frame, text="Crear contraseña:", font=("Arial", 12), bg="white").pack(pady=(10, 5))
+
+        pass_frame = tk.Frame(frame, bg="white")
+        pass_frame.pack(pady=5)
+
+        self.entry_password = tk.Entry(pass_frame, width=20, font=("Arial", 10), show="*")
+        self.entry_password.pack(side="left", padx=(0, 5))
+
+        tk.Button(frame, text="Registrarse", font=("Arial", 10), command=self.registro).pack(pady=10)
+        tk.Button(frame, text="Volver al ingreso", font=("Arial", 10), command=self.volver_login).pack()
+
+    def registro(self):
+        usuario = self.entry_usuario.get().strip()
+        contrasena = self.entry_password.get().strip()
+        errores_registro = []
+
+        if not usuario and not contrasena:
+            messagebox.showwarning("Error", "Por favor completa todos los campos.")
+            return
+        if not usuario:
+            messagebox.showwarning("Error", "El campo de usuario no puede estar vacío.")
+            return
+        if not contrasena:
+            messagebox.showwarning("Error", "El campo de contraseña no puede estar vacío.")
+            return
+
+        if len(contrasena) < 8:
             errores_registro.append("La contraseña debe tener al menos 8 caracteres.")
-        if not re.search(r"[A-Z]", contraseña):
+        if not re.search(r"[A-Z]", contrasena):
             errores_registro.append("La contraseña debe contener al menos una letra mayúscula.")
-        if not re.search(r"\d", contraseña):
+        if not re.search(r"\d", contrasena):
             errores_registro.append("La contraseña debe contener al menos un número.")
-        if not re.search(r"[!@#$%^&*(),.?\":{}|<>]", contraseña):
+        if not re.search(r"[!@#$%^&*(),.?\":{}|<>]", contrasena):
             errores_registro.append("La contraseña debe contener al menos un carácter especial.")
 
         if errores_registro:
@@ -175,25 +190,20 @@ def ventana_registro():
             messagebox.showwarning("Error", mensaje)
             return
 
-        if gestor_usuarios.registrar_usuario(usuario, contraseña):
-            messagebox.showinfo("Registro", "Usuario registrado correctamente")
-            root.destroy()
-            ventana_login()
-        else:
-            messagebox.showerror("Error", "El usuario ya existe")
+        try:
+            if self.gestor_usuarios.registrar_usuario(usuario, contrasena):
+                messagebox.showinfo("Registro", "Usuario registrado correctamente")
+                self.root.destroy()
+                Ventana_Ingreso()
+            else:
+                messagebox.showerror("Error", "El usuario ya existe")
+        except Exception as e:
+            messagebox.showerror("Error", f"Ocurrió un error al registrar:\n{e}")
 
-    # Para que la persona regrese al login si se equivoca
+    def volver_login(self):
+        self.root.destroy()
+        Ventana_Ingreso()
 
-    def ir_a_login():
-        root.destroy()
-        ventana_login()
-
-    tk.Button(frame, text="Registrarse", font=("Arial", 10), command=registro).pack(pady=10)
-    tk.Button(frame, text="Volver al ingreso", font=("Arial", 10), command=ir_a_login).pack()
-    
-    root.mainloop()
-
-# Inicio del programa
 
 if __name__ == "__main__":
-    ventana_login()
+    Ventana_Ingreso()
