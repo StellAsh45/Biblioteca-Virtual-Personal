@@ -342,5 +342,5 @@ class BibliotecaGUI:
     def salir(self):
         self.root.destroy()
         import Main
-        Main.Ventana_Ingreso()
+        Main.VentanaAcceso()
 
