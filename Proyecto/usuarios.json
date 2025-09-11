@@ -4,16 +4,6 @@
         "contraseña": "Miguel28.",
         "libros": [
             {
-                "referencia": "AAA334",
-                "titulo": "El viaje de Miguel",
-                "autor": "Miguel",
-                "anio": 1999,
-                "genero": "Otro",
-                "estado": "Pendiente",
-                "fecha_inicio": "02/07/2024",
-                "fecha_fin": "05/07/2025"
-            },
-            {
                 "referencia": "AAA000",
                 "titulo": "AAAAAAAAAA",
                 "autor": "AAAAAAAA",
@@ -112,6 +102,16 @@
                 "estado": "Leído",
                 "fecha_inicio": "02/04/1904",
                 "fecha_fin": "03/04/1908"
+            },
+            {
+                "referencia": "AAA334",
+                "titulo": "El viaje de Miguel",
+                "autor": "Miguel",
+                "anio": 1999,
+                "genero": "Otro",
+                "estado": "Pendiente",
+                "fecha_inicio": "02/07/2024",
+                "fecha_fin": "05/07/2025"
             }
         ]
     },
