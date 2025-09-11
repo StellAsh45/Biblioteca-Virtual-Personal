@@ -14,16 +14,6 @@
                 "fecha_fin": "05/07/2025"
             },
             {
-                "referencia": "AAA111",
-                "titulo": "aaaaaaa",
-                "autor": "aaaaaaaaa",
-                "anio": 1900,
-                "genero": "Ciencia Ficción",
-                "estado": "Pendiente",
-                "fecha_inicio": "02/04/1904",
-                "fecha_fin": "03/04/1908"
-            },
-            {
                 "referencia": "AAA000",
                 "titulo": "AAAAAAAAAA",
                 "autor": "AAAAAAAA",
@@ -105,13 +95,39 @@
             },
             {
                 "referencia": "AAA333",
-                "titulo": "ADADAD",
-                "autor": "ADADADA",
-                "anio": 1982,
-                "genero": "Novela",
+                "titulo": "Juan",
+                "autor": "Pablo",
+                "anio": 10,
+                "genero": "Fantasía",
+                "estado": "Leído",
+                "fecha_inicio": "02/02/1910",
+                "fecha_fin": "03/02/1931"
+            },
+            {
+                "referencia": "AAA111",
+                "titulo": "aaaaaaa",
+                "autor": "aaaaaaaaa",
+                "anio": 1900,
+                "genero": "Ciencia Ficción",
+                "estado": "Leído",
+                "fecha_inicio": "02/04/1904",
+                "fecha_fin": "03/04/1908"
+            }
+        ]
+    },
+    {
+        "usuario": "Juan",
+        "contraseña": "Juan2828.",
+        "libros": [
+            {
+                "referencia": "AAA444",
+                "titulo": "adadada",
+                "autor": "adadada",
+                "anio": 1234,
+                "genero": "Historia",
                 "estado": "Pendiente",
-                "fecha_inicio": "01/01/1983",
-                "fecha_fin": "03/05/2018"
+                "fecha_inicio": "03/02/1902",
+                "fecha_fin": "02/01/1911"
             }
         ]
     }
