@@ -1,7 +1,9 @@
 import tkinter as tk
-from tkinter import ttk, messagebox
+from tkinter import ttk, messagebox, filedialog
 import datetime
 import re
+import csv
+import Main
 
 class BibliotecaGUI:
     def __init__(self, usuario, gestor_libros):
@@ -12,7 +14,7 @@ class BibliotecaGUI:
         self.root = tk.Tk()
         self.root.title("Biblioteca Virtual Personal")
         self.root.resizable(False, False)
-        self.centrar_ventana(1600, 800)
+        self.centrar_ventana(1750, 600)
 
         # Diccionario para entradas del formulario
         self.entradas = {}
@@ -42,23 +44,17 @@ class BibliotecaGUI:
 
     def crear_interfaz(self):
         # Título superior
-        tk.Label(self.root, text=f"Bienvenido {self.usuario} a tu Biblioteca Virtual Personal",
-                 font=("Arial", 14, "bold")).pack(pady=10)
+        tk.Label(self.root, text=f" 📚 Bienvenido {self.usuario} a tu Biblioteca Virtual Personal 📚",font=("Arial", 16, "bold")).pack(pady=10)
 
         # Contenedores
-        top_frame = tk.Frame(self.root, height=400)
-        top_frame.pack(side="top", fill="x", padx=20, pady=10)
-
-        bottom_frame = tk.Frame(self.root, height=350, bg="#f5f5f5")
-        bottom_frame.pack(side="bottom", fill="both", expand=True)
-        tk.Label(bottom_frame, text="Esto es para añadir otras cositas después",
-                 fg="gray", font=("Arial", 11)).pack(pady=20)
+        frame = tk.Frame(self.root, height=400)
+        frame.pack(side="top", fill="x", padx=20, pady=10)
 
         # ----------- FORMULARIO -----------
-        form_frame = tk.Frame(top_frame, bd=2, relief="groove", padx=15, pady=15)
+        form_frame = tk.Frame(frame, bd=2, relief="groove", padx=15, pady=15)
         form_frame.pack(side="left", fill="y", padx=10, pady=10)
 
-        tk.Label(form_frame, text="Formulario para añadir o actualizar un libro",
+        tk.Label(form_frame, text="Formulario para añadir un libro",
                  font=("Arial", 12, "bold"), fg="navy").grid(row=0, column=0, columnspan=2, pady=(0, 15))
 
         labels = ["Referencia*", "Título*", "Autor*", "Año*", "Género*", "Estado*", "Fecha Inicio*", "Fecha Fin*"]
@@ -91,7 +87,7 @@ class BibliotecaGUI:
             elif label == "Género*":
                 genero_var = tk.StringVar()
                 combo = ttk.Combobox(field_frame, textvariable=genero_var,
-                                     values=["Novela", "Ciencia Ficción", "Historia", "Fantasía", "Ensayo", "Otro"],
+                                     values=["Novela", "Fábula", "Ciencia Ficción", "Historia", "Fantasía", "Ensayo", "Otro"],
                                      state="readonly", width=18)
                 combo.pack(side="left")
                 self.entradas[label] = genero_var
@@ -120,7 +116,7 @@ class BibliotecaGUI:
                 tk.Label(field_frame, text="Selecciona la fecha (DD/MM/AAAA)", fg="gray", font=("Arial", 8)).pack(side="left", padx=8)
 
         # ----------- FILTROS Y TABLA -----------
-        tabla_frame_container = tk.Frame(top_frame)
+        tabla_frame_container = tk.Frame(frame)
         tabla_frame_container.pack(side="right", padx=10, pady=10, fill="both", expand=True)
 
         # Filtros
@@ -130,17 +126,17 @@ class BibliotecaGUI:
         tk.Label(filtro_frame, text="Referencia:").grid(row=0, column=0, padx=5)
         tk.Entry(filtro_frame, textvariable=self.Referencia_var, width=20).grid(row=0, column=1, padx=5)
 
-        tk.Label(filtro_frame, text="Género:").grid(row=0, column=2, padx=5)
+        tk.Label(filtro_frame, text="Autor:").grid(row=0, column=2, padx=5)
+        tk.Entry(filtro_frame, textvariable=self.autor_var, width=20).grid(row=0, column=3, padx=5)
+
+        tk.Label(filtro_frame, text="Género:").grid(row=0, column=4, padx=5)
         ttk.Combobox(filtro_frame, textvariable=self.genero_var,
-                     values=["", "Novela", "Ciencia Ficción", "Historia", "Fantasía", "Ensayo", "Otro"],
-                     state="readonly", width=15).grid(row=0, column=3, padx=5)
+                     values=["", "Novela", "Fábula", "Ciencia Ficción", "Historia", "Fantasía", "Ensayo", "Otro"],
+                     state="readonly", width=15).grid(row=0, column=5, padx=5)
 
-        tk.Label(filtro_frame, text="Estado:").grid(row=0, column=4, padx=5)
+        tk.Label(filtro_frame, text="Estado:").grid(row=0, column=6, padx=5)
         ttk.Combobox(filtro_frame, textvariable=self.estado_var,
-                     values=["", "Leído", "Pendiente"], state="readonly", width=15).grid(row=0, column=5, padx=5)
-
-        tk.Label(filtro_frame, text="Autor:").grid(row=0, column=6, padx=5)
-        tk.Entry(filtro_frame, textvariable=self.autor_var, width=20).grid(row=0, column=7, padx=5)
+                     values=["", "Leído", "Pendiente"], state="readonly", width=15).grid(row=0, column=7, padx=5)
 
         tk.Button(filtro_frame, text="Aplicar filtros", command=self.aplicar_filtros).grid(row=0, column=8, padx=10, pady=3)
         tk.Button(filtro_frame, text="Limpiar filtros", command=self.limpiar_filtros).grid(row=0, column=9, padx=10)
@@ -161,6 +157,24 @@ class BibliotecaGUI:
             self.tabla.heading(col, text=col)
             self.tabla.column(col, width=120, anchor="center")
 
+        # Estadísticas
+        resumen_frame = tk.Frame(tabla_frame_container,bd=2, relief="groove", bg="white")
+        resumen_frame.pack(side="bottom", fill="x", pady=10)
+
+        tk.Label(resumen_frame, text="📊 Resumen de Libros", font=("Arial", 12, "bold"), bg="white", fg="navy").pack(pady=5)
+
+        contador_frame = tk.Frame(resumen_frame, bg="white")
+        contador_frame.pack(pady=5)
+
+        self.lbl_leidos = tk.Label(contador_frame, text="Leídos: 0", font=("Arial", 11, "bold"), fg="green", bg="white")
+        self.lbl_leidos.pack(side="left", padx=20)
+
+        self.lbl_pendientes = tk.Label(contador_frame, text="Pendientes: 0", font=("Arial", 11, "bold"), fg="red", bg="white")
+        self.lbl_pendientes.pack(side="left", padx=20)
+
+        self.lbl_total = tk.Label(contador_frame, text="Total: 0", font=("Arial", 11, "bold"), fg="black", bg="white")
+        self.lbl_total.pack(side="left", padx=20)
+
         # Botones
         btn_frame = tk.Frame(form_frame, pady=20)
         btn_frame.grid(row=len(self.entradas) + 1, column=0, columnspan=2)
@@ -168,8 +182,10 @@ class BibliotecaGUI:
         tk.Button(btn_frame, text="Guardar Libro", command=self.guardar_libro, width=15, bg="#4CAF50", fg="white").grid(row=0, column=0, padx=5)
         tk.Button(btn_frame, text="Eliminar Libro", command=self.eliminar_libro, width=15, bg="#f44336", fg="white").grid(row=0, column=1, padx=5)
         tk.Button(btn_frame, text="Editar Libro", command=self.editar_libro, width=15, bg="#2196F3", fg="white").grid(row=0, column=2, padx=5)
-        tk.Button(btn_frame, text="Salir", command=self.salir, width=15, bg="#9E9E9E", fg="white").grid(row=0, column=3, padx=5)
-
+        tk.Button(btn_frame, text="Exportar a CSV", command=self.exportar_csv, width=15, bg="#FF9800", fg="white").grid(row=0, column=3, padx=5)
+        tk.Button(btn_frame, text="Salir", command=self.salir, width=15, bg="#9E9E9E", fg="white").grid(row=0, column=4, padx=5)
+        
+        tk.Label(self.root, text=f"Gracias, {self.usuario}, por usar nuestros servicios 👍",font=("Arial", 16, "bold")).pack(pady=10)
     # ---------------- MÉTODOS ----------------
     def aplicar_filtros(self):
         self.tabla.delete(*self.tabla.get_children())
@@ -205,6 +221,25 @@ class BibliotecaGUI:
             elif isinstance(entry, tuple):
                 for c in entry: c.set("")
 
+    def actualizar_estadisticas(self, libros=None):
+        if libros is None:
+            libros = self.gestor_libros.listar_libros(self.usuario)
+        total=len(libros)
+        leidos = sum(1 for l in libros if l["estado"].lower() == "leído")
+        pendientes = sum(1 for l in libros if l["estado"].lower() == "pendiente")
+        self.lbl_leidos.config(text=f"Leídos: {leidos}")
+        self.lbl_pendientes.config(text=f"Pendientes: {pendientes}")
+
+        conteo_generos = {}
+        for l in libros:
+            genero = l["genero"]
+            conteo_generos[genero] = conteo_generos.get(genero, 0) + 1
+
+        # Actualizar labels
+        self.lbl_total.config(text=f"Total: {total}")
+        self.lbl_leidos.config(text=f"Leídos: {leidos}")
+        self.lbl_pendientes.config(text=f"Pendientes: {pendientes}")
+
     def actualizar_lista(self):
         self.tabla.delete(*self.tabla.get_children())
         libros = self.gestor_libros.listar_libros(self.usuario)
@@ -214,6 +249,7 @@ class BibliotecaGUI:
                 libro['anio'], libro['genero'], libro['estado'],
                 libro['fecha_inicio'], libro['fecha_fin']
             ))
+        self.actualizar_estadisticas(libros)
 
     def editar_libro(self):
         try:
@@ -339,8 +375,40 @@ class BibliotecaGUI:
         except Exception as e:
             messagebox.showerror("Error", str(e))
 
+    def exportar_csv(self):
+        try:
+            libros = self.gestor_libros.listar_libros(self.usuario)
+            if not libros:
+                messagebox.showwarning("Aviso", "No hay libros para exportar.")
+                return
+
+            # seleccionar ruta de guardado
+            archivo = filedialog.asksaveasfilename(
+                defaultextension=".csv",
+                filetypes=[("CSV files", "*.csv")],
+                title="Guardar como",
+                initialfile=f"{self.usuario}_biblioteca.csv"
+            )
+            if not archivo:
+                return  # cancelado
+
+            # escribir archivo CSV
+            with open(archivo, "w", newline="", encoding="utf-8-sig") as f:
+                writer = csv.writer(f)
+                writer.writerow(["Referencia", "Título", "Autor", "Año publicación", 
+                                 "Género", "Estado", "Iniciado en", "Terminado en"])
+                for libro in libros:
+                    writer.writerow([
+                        libro['referencia'], libro['titulo'], libro['autor'],
+                        libro['anio'], libro['genero'], libro['estado'],
+                        libro['fecha_inicio'], libro['fecha_fin']
+                    ])
+
+            messagebox.showinfo("Éxito", f"📁 Exportado correctamente a:\n{archivo}")
+        except Exception as e:
+            messagebox.showerror("Error", f"No se pudo exportar: {str(e)}")
+
     def salir(self):
         self.root.destroy()
-        import Main
         Main.VentanaAcceso()
 
