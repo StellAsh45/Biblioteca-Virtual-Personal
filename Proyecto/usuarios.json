@@ -24,16 +24,6 @@
                 "fecha_fin": "01/03/1904"
             },
             {
-                "referencia": "AAA333",
-                "titulo": "Juan",
-                "autor": "Pablo",
-                "anio": 10,
-                "genero": "Fantasía",
-                "estado": "Leído",
-                "fecha_inicio": "02/02/1910",
-                "fecha_fin": "03/02/1931"
-            },
-            {
                 "referencia": "AAA111",
                 "titulo": "aaaaaaa",
                 "autor": "aaaaaaaaa",
@@ -42,16 +32,6 @@
                 "estado": "Leído",
                 "fecha_inicio": "02/04/1904",
                 "fecha_fin": "03/04/1908"
-            },
-            {
-                "referencia": "AAA334",
-                "titulo": "El viaje de Miguel",
-                "autor": "Miguel",
-                "anio": 1999,
-                "genero": "Otro",
-                "estado": "Pendiente",
-                "fecha_inicio": "02/07/2024",
-                "fecha_fin": "05/07/2025"
             },
             {
                 "referencia": "AAA009",
@@ -72,16 +52,6 @@
                 "estado": "Leído",
                 "fecha_inicio": "03/02/1909",
                 "fecha_fin": "04/05/1918"
-            },
-            {
-                "referencia": "AAA457",
-                "titulo": "ADADA",
-                "autor": "ADADA1",
-                "anio": 1234,
-                "genero": "Novela",
-                "estado": "Pendiente",
-                "fecha_inicio": "01/02/1902",
-                "fecha_fin": "04/06/1917"
             },
             {
                 "referencia": "AAA339",
@@ -112,12 +82,44 @@
                 "estado": "Pendiente",
                 "fecha_inicio": "02/02/1903",
                 "fecha_fin": "03/04/1907"
+            },
+            {
+                "referencia": "AAA334",
+                "titulo": "El viaje de Miguel",
+                "autor": "Miguel",
+                "anio": 1999,
+                "genero": "Historia",
+                "estado": "Pendiente",
+                "fecha_inicio": "02/07/2024",
+                "fecha_fin": "05/07/2025"
+            },
+            {
+                "referencia": "AAA333",
+                "titulo": "Juan",
+                "autor": "Pablo",
+                "anio": 10,
+                "genero": "Fantasía",
+                "estado": "Pendiente",
+                "fecha_inicio": "02/02/1910",
+                "fecha_fin": "03/02/1931"
+            },
+            {
+                "referencia": "AAA457",
+                "titulo": "ADADA",
+                "autor": "ADADA1",
+                "anio": 1234,
+                "genero": "Novela",
+                "estado": "Leído",
+                "fecha_inicio": "01/02/1902",
+                "fecha_fin": "04/06/1917"
             }
         ]
     },
     {
         "usuario": "Juan",
         "contraseña": "Juan2828.",
-        "libros": []
+        "libros": [
+            
+        ]
     }
 ]
