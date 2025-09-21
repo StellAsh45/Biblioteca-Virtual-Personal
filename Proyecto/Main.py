@@ -7,7 +7,6 @@ from ManejoUsuarios import ManejoUsuarios
 from ManejoLibros import ManejoLibros
 import Biblioteca
 
-
 class VentanaAcceso:
     def __init__(self):
         self.gestor_usuarios = ManejoUsuarios()
