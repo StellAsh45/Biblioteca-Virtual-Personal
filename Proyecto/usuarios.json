@@ -4,46 +4,6 @@
         "contraseña": "Miguel28.",
         "libros": [
             {
-                "referencia": "AAA000",
-                "titulo": "AAAAAAAAAA",
-                "autor": "AAAAAAAA",
-                "anio": 1900,
-                "genero": "Ciencia Ficción",
-                "estado": "Pendiente",
-                "fecha_inicio": "01/02/1900",
-                "fecha_fin": "03/03/1900"
-            },
-            {
-                "referencia": "ADA123",
-                "titulo": "ADADAD",
-                "autor": "ADADADA",
-                "anio": 1234,
-                "genero": "Ciencia Ficción",
-                "estado": "Leído",
-                "fecha_inicio": "03/02/1909",
-                "fecha_fin": "04/05/1918"
-            },
-            {
-                "referencia": "ADA345",
-                "titulo": "ADADAD",
-                "autor": "ADADA",
-                "anio": 1234,
-                "genero": "Historia",
-                "estado": "Pendiente",
-                "fecha_inicio": "01/03/1901",
-                "fecha_fin": "02/02/1902"
-            },
-            {
-                "referencia": "ADA456",
-                "titulo": "ADADA",
-                "autor": "ADADADAD",
-                "anio": 1234,
-                "genero": "Ciencia Ficción",
-                "estado": "Pendiente",
-                "fecha_inicio": "01/01/1900",
-                "fecha_fin": "04/04/1901"
-            },
-            {
                 "referencia": "ADR342",
                 "titulo": "ADADA",
                 "autor": "ADADA",
@@ -54,16 +14,6 @@
                 "fecha_fin": "02/02/1902"
             },
             {
-                "referencia": "ADA134",
-                "titulo": "ADADA",
-                "autor": "ADADA",
-                "anio": 1245,
-                "genero": "Historia",
-                "estado": "Pendiente",
-                "fecha_inicio": "02/02/1903",
-                "fecha_fin": "03/04/1907"
-            },
-            {
                 "referencia": "EEE123",
                 "titulo": "ADAD",
                 "autor": "ADADADA",
@@ -72,16 +22,6 @@
                 "estado": "Pendiente",
                 "fecha_inicio": "02/03/1902",
                 "fecha_fin": "01/03/1904"
-            },
-            {
-                "referencia": "AAA457",
-                "titulo": "ADADA",
-                "autor": "ADADA1",
-                "anio": 1234,
-                "genero": "Ciencia Ficción",
-                "estado": "Pendiente",
-                "fecha_inicio": "01/02/1902",
-                "fecha_fin": "04/06/1917"
             },
             {
                 "referencia": "AAA333",
@@ -112,23 +52,72 @@
                 "estado": "Pendiente",
                 "fecha_inicio": "02/07/2024",
                 "fecha_fin": "05/07/2025"
+            },
+            {
+                "referencia": "AAA009",
+                "titulo": "AAAAAAAAAA",
+                "autor": "AAAAAAAA",
+                "anio": 1900,
+                "genero": "Ciencia Ficción",
+                "estado": "Pendiente",
+                "fecha_inicio": "01/02/1900",
+                "fecha_fin": "03/03/1900"
+            },
+            {
+                "referencia": "ADA123",
+                "titulo": "ADADAD",
+                "autor": "ADADADA",
+                "anio": 1234,
+                "genero": "Historia",
+                "estado": "Leído",
+                "fecha_inicio": "03/02/1909",
+                "fecha_fin": "04/05/1918"
+            },
+            {
+                "referencia": "AAA457",
+                "titulo": "ADADA",
+                "autor": "ADADA1",
+                "anio": 1234,
+                "genero": "Novela",
+                "estado": "Pendiente",
+                "fecha_inicio": "01/02/1902",
+                "fecha_fin": "04/06/1917"
+            },
+            {
+                "referencia": "AAA339",
+                "titulo": "1234",
+                "autor": "adadad",
+                "anio": 1345,
+                "genero": "Ciencia Ficción",
+                "estado": "Leído",
+                "fecha_inicio": "01/04/1900",
+                "fecha_fin": "02/01/1903"
+            },
+            {
+                "referencia": "ADA456",
+                "titulo": "ADADA",
+                "autor": "ADADADAD",
+                "anio": 1234,
+                "genero": "Ciencia Ficción",
+                "estado": "Pendiente",
+                "fecha_inicio": "01/01/1900",
+                "fecha_fin": "04/04/1901"
+            },
+            {
+                "referencia": "ADA135",
+                "titulo": "ADADA",
+                "autor": "ADADA",
+                "anio": 1245,
+                "genero": "Fabula",
+                "estado": "Pendiente",
+                "fecha_inicio": "02/02/1903",
+                "fecha_fin": "03/04/1907"
             }
         ]
     },
     {
         "usuario": "Juan",
         "contraseña": "Juan2828.",
-        "libros": [
-            {
-                "referencia": "AAA444",
-                "titulo": "adadada",
-                "autor": "adadada",
-                "anio": 1234,
-                "genero": "Historia",
-                "estado": "Pendiente",
-                "fecha_inicio": "03/02/1902",
-                "fecha_fin": "02/01/1911"
-            }
-        ]
+        "libros": []
     }
 ]
