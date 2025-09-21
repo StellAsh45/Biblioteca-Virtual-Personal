@@ -221,19 +221,12 @@ class BibliotecaGUI:
             elif isinstance(entry, tuple):
                 for c in entry: c.set("")
 
-    def actualizar_estadisticas(self, libros=None):
+    def actualizar_estadisticas(self,libros=None):
         if libros is None:
             libros = self.gestor_libros.listar_libros(self.usuario)
         total=len(libros)
         leidos = sum(1 for l in libros if l["estado"].lower() == "leído")
         pendientes = sum(1 for l in libros if l["estado"].lower() == "pendiente")
-        self.lbl_leidos.config(text=f"Leídos: {leidos}")
-        self.lbl_pendientes.config(text=f"Pendientes: {pendientes}")
-
-        conteo_generos = {}
-        for l in libros:
-            genero = l["genero"]
-            conteo_generos[genero] = conteo_generos.get(genero, 0) + 1
 
         # Actualizar labels
         self.lbl_total.config(text=f"Total: {total}")
@@ -249,7 +242,7 @@ class BibliotecaGUI:
                 libro['anio'], libro['genero'], libro['estado'],
                 libro['fecha_inicio'], libro['fecha_fin']
             ))
-        self.actualizar_estadisticas(libros)
+        self.actualizar_estadisticas()
 
     def editar_libro(self):
         try:
