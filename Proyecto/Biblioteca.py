@@ -14,7 +14,7 @@ class BibliotecaGUI:
         self.root = tk.Tk()
         self.root.title("Biblioteca Virtual Personal")
         self.root.resizable(False, False)
-        self.centrar_ventana(1750, 600)
+        self.centrar_ventana(1400, 600)
 
         # Diccionario para entradas del formulario
         self.entradas = {}
@@ -36,7 +36,7 @@ class BibliotecaGUI:
         self.root.mainloop()
 
     def centrar_ventana(self, ancho, alto):
-        """Centra la ventana self.root en pantalla."""
+        #Centra la ventana self.root en pantalla.
         self.root.update_idletasks()
         x = (self.root.winfo_screenwidth() // 2) - (ancho // 2)
         y = (self.root.winfo_screenheight() // 2) - (alto // 2)
@@ -138,24 +138,35 @@ class BibliotecaGUI:
         ttk.Combobox(filtro_frame, textvariable=self.estado_var,
                      values=["", "Leído", "Pendiente"], state="readonly", width=15).grid(row=0, column=7, padx=5)
 
-        tk.Button(filtro_frame, text="Aplicar filtros", command=self.aplicar_filtros).grid(row=0, column=8, padx=10, pady=3)
-        tk.Button(filtro_frame, text="Limpiar filtros", command=self.limpiar_filtros).grid(row=0, column=9, padx=10)
+        tk.Button(filtro_frame, text="Aplicar filtros", command=self.aplicar_filtros).grid(row=1, column=3, padx=10, pady=3)
+        tk.Button(filtro_frame, text="Limpiar filtros", command=self.limpiar_filtros).grid(row=1, column=4, padx=10)
 
         # Tabla
         tabla_frame = tk.Frame(tabla_frame_container, bd=2, relief="groove")
         tabla_frame.pack(side="top", fill="both", expand=True)
 
         columnas = ("Referencia", "Título", "Autor", "Año publicación", "Género", "Estado", "Iniciado en", "Terminado en")
-        self.scroll_y = tk.Scrollbar(tabla_frame, orient="vertical")
-        self.tabla = ttk.Treeview(tabla_frame, columns=columnas, show="headings",
-                                  height=10, yscrollcommand=self.scroll_y.set)
+        self.scroll_y = tk.Scrollbar(tabla_frame, orient="vertical") # Scroll vertical
+        self.scroll_x = tk.Scrollbar(tabla_frame, orient="horizontal")  # Scroll horizontal
+
+        self.tabla = ttk.Treeview(
+            tabla_frame,
+            columns=columnas,
+            show="headings",
+            height=10, 
+            yscrollcommand=self.scroll_y.set,
+            xscrollcommand=self.scroll_x.set  
+        )
         self.scroll_y.config(command=self.tabla.yview)
-        self.scroll_y.pack(side="right", fill="y")
+        self.scroll_x.config(command=self.tabla.xview)
+
+        self.scroll_y.pack(side="right", fill="y") # Scroll vertical a la derecha de la tabla
+        self.scroll_x.pack(side="bottom", fill="x")  # Scroll horizontal debajo de la tabla
         self.tabla.pack(side="left", fill="both", expand=True)
 
         for col in columnas:
             self.tabla.heading(col, text=col)
-            self.tabla.column(col, width=120, anchor="center")
+            self.tabla.column(col, width=150, anchor="center", stretch=False)
 
         # Estadísticas
         resumen_frame = tk.Frame(tabla_frame_container,bd=2, relief="groove", bg="white")
@@ -182,8 +193,8 @@ class BibliotecaGUI:
         tk.Button(btn_frame, text="Guardar Libro", command=self.guardar_libro, width=15, bg="#4CAF50", fg="white").grid(row=0, column=0, padx=5)
         tk.Button(btn_frame, text="Eliminar Libro", command=self.eliminar_libro, width=15, bg="#f44336", fg="white").grid(row=0, column=1, padx=5)
         tk.Button(btn_frame, text="Editar Libro", command=self.editar_libro, width=15, bg="#2196F3", fg="white").grid(row=0, column=2, padx=5)
-        tk.Button(btn_frame, text="Exportar a CSV", command=self.exportar_csv, width=15, bg="#FF9800", fg="white").grid(row=0, column=3, padx=5)
-        tk.Button(btn_frame, text="Salir", command=self.salir, width=15, bg="#9E9E9E", fg="white").grid(row=0, column=4, padx=5)
+        tk.Button(btn_frame, text="Exportar a CSV", command=self.exportar_csv, width=15, bg="#FF9800", fg="white").grid(row=1, column=0, padx=5)
+        tk.Button(btn_frame, text="Salir", command=self.salir, width=15, bg="#9E9E9E", fg="white").grid(row=1, column=1, padx=5)
         
         tk.Label(self.root, text=f"Gracias, {self.usuario}, por usar nuestros servicios 👍",font=("Arial", 16, "bold")).pack(pady=10)
     # ---------------- MÉTODOS ----------------
@@ -404,4 +415,3 @@ class BibliotecaGUI:
     def salir(self):
         self.root.destroy()
         Main.VentanaAcceso()
-
