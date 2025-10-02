@@ -4,86 +4,6 @@
         "contraseña": "Miguel28.",
         "libros": [
             {
-                "referencia": "ADR342",
-                "titulo": "ADADA",
-                "autor": "ADADA",
-                "anio": 1234,
-                "genero": "Ciencia Ficción",
-                "estado": "Pendiente",
-                "fecha_inicio": "01/03/1901",
-                "fecha_fin": "02/02/1902"
-            },
-            {
-                "referencia": "EEE123",
-                "titulo": "ADAD",
-                "autor": "ADADADA",
-                "anio": 1234,
-                "genero": "Novela",
-                "estado": "Pendiente",
-                "fecha_inicio": "02/03/1902",
-                "fecha_fin": "01/03/1904"
-            },
-            {
-                "referencia": "AAA111",
-                "titulo": "aaaaaaa",
-                "autor": "aaaaaaaaa",
-                "anio": 1900,
-                "genero": "Ciencia Ficción",
-                "estado": "Leído",
-                "fecha_inicio": "02/04/1904",
-                "fecha_fin": "03/04/1908"
-            },
-            {
-                "referencia": "AAA009",
-                "titulo": "AAAAAAAAAA",
-                "autor": "AAAAAAAA",
-                "anio": 1900,
-                "genero": "Ciencia Ficción",
-                "estado": "Pendiente",
-                "fecha_inicio": "01/02/1900",
-                "fecha_fin": "03/03/1900"
-            },
-            {
-                "referencia": "ADA123",
-                "titulo": "ADADAD",
-                "autor": "ADADADA",
-                "anio": 1234,
-                "genero": "Historia",
-                "estado": "Leído",
-                "fecha_inicio": "03/02/1909",
-                "fecha_fin": "04/05/1918"
-            },
-            {
-                "referencia": "AAA339",
-                "titulo": "1234",
-                "autor": "adadad",
-                "anio": 1345,
-                "genero": "Ciencia Ficción",
-                "estado": "Leído",
-                "fecha_inicio": "01/04/1900",
-                "fecha_fin": "02/01/1903"
-            },
-            {
-                "referencia": "ADA456",
-                "titulo": "ADADA",
-                "autor": "ADADADAD",
-                "anio": 1234,
-                "genero": "Ciencia Ficción",
-                "estado": "Pendiente",
-                "fecha_inicio": "01/01/1900",
-                "fecha_fin": "04/04/1901"
-            },
-            {
-                "referencia": "ADA135",
-                "titulo": "ADADA",
-                "autor": "ADADA",
-                "anio": 1245,
-                "genero": "Fabula",
-                "estado": "Pendiente",
-                "fecha_inicio": "02/02/1903",
-                "fecha_fin": "03/04/1907"
-            },
-            {
                 "referencia": "AAA334",
                 "titulo": "El viaje de Miguel",
                 "autor": "Miguel",
@@ -104,22 +24,130 @@
                 "fecha_fin": "03/02/1931"
             },
             {
-                "referencia": "AAA457",
-                "titulo": "ADADA",
-                "autor": "ADADA1",
-                "anio": 1234,
+                "referencia": "AAA111",
+                "titulo": "aaaaaaa",
+                "autor": "Miguel",
+                "anio": 1900,
+                "genero": "Terror",
+                "estado": "Leído",
+                "fecha_inicio": "02/04/1904",
+                "fecha_fin": "03/04/1908"
+            },
+            {
+                "referencia": "REF001",
+                "titulo": "Cien años de soledad",
+                "autor": "Gabriel García Márquez",
+                "anio": 1967,
                 "genero": "Novela",
                 "estado": "Leído",
-                "fecha_inicio": "01/02/1902",
-                "fecha_fin": "04/06/1917"
+                "fecha_inicio": "10/01/2023",
+                "fecha_fin": "31/01/2023"
+            },
+            {
+                "referencia": "REF002",
+                "titulo": "Hamlet",
+                "autor": "William Shakespeare",
+                "anio": 1603,
+                "genero": "Drama",
+                "estado": "Pendiente",
+                "fecha_inicio": "31/03/2023",
+                "fecha_fin": "07/05/2023"
+            },
+            {
+                "referencia": "REF003",
+                "titulo": "El príncipe",
+                "autor": "Nicolás Maquiavelo",
+                "anio": 1532,
+                "genero": "Política",
+                "estado": "Pendiente",
+                "fecha_inicio": "05/04/2023",
+                "fecha_fin": "29/05/2023"
+            },
+            {
+                "referencia": "REF004",
+                "titulo": "1984",
+                "autor": "George Orwell",
+                "anio": 1949,
+                "genero": "Distopía",
+                "estado": "Leído",
+                "fecha_inicio": "03/07/2023",
+                "fecha_fin": "27/07/2023"
+            },
+            {
+                "referencia": "REF005",
+                "titulo": "Código limpio",
+                "autor": "Robert C. Martin",
+                "anio": 2008,
+                "genero": "Informática",
+                "estado": "Leído",
+                "fecha_inicio": "03/09/2023",
+                "fecha_fin": "09/09/2023"
+            },
+            {
+                "referencia": "REF006",
+                "titulo": "El resplandor",
+                "autor": "Stephen King",
+                "anio": 1977,
+                "genero": "Terror",
+                "estado": "Pendiente",
+                "fecha_inicio": "10/07/2023",
+                "fecha_fin": "29/11/2023"
+            },
+            {
+                "referencia": "REF007",
+                "titulo": "La república",
+                "autor": "Platón",
+                "anio": -380,
+                "genero": "Filosofía",
+                "estado": "Leído",
+                "fecha_inicio": "02/05/2023",
+                "fecha_fin": "04/08/2023"
+            },
+            {
+                "referencia": "REF008",
+                "titulo": "El alquimista",
+                "autor": "Paulo Coelho",
+                "anio": 1988,
+                "genero": "Otro",
+                "estado": "Pendiente",
+                "fecha_inicio": "28/10/2024",
+                "fecha_fin": "30/11/2024"
+            },
+            {
+                "referencia": "ADA456",
+                "titulo": "ADADA",
+                "autor": "ADADADAD",
+                "anio": -2,
+                "genero": "Ciencia Ficción",
+                "estado": "Pendiente",
+                "fecha_inicio": "01/01/1900",
+                "fecha_fin": "04/04/1901"
+            },
+            {
+                "referencia": "REF009",
+                "titulo": "El hombre que calculaba",
+                "autor": "Malba Tahan",
+                "anio": 1938,
+                "genero": "Matematicas",
+                "estado": "Leído",
+                "fecha_inicio": "02/03/2023",
+                "fecha_fin": "03/05/2024"
+            },
+            {
+                "referencia": "EEE123",
+                "titulo": "ADAD",
+                "autor": "ADADADA",
+                "anio": 1234,
+                "genero": "Biología",
+                "estado": "Pendiente",
+                "fecha_inicio": "02/03/1902",
+                "fecha_fin": "01/03/1904"
             }
         ]
     },
     {
         "usuario": "Juan",
         "contraseña": "Juan2828.",
-        "libros": [
-            
-        ]
+        "libros": []
     }
 ]
