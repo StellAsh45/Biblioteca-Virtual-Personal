@@ -1,6 +1,7 @@
-# Metodo para manejar los libros de los usuarios
+# Clase para manejar los libros de los usuarios
 class ManejoLibros:
     def __init__(self, gestor_usuarios):
+        # Recibe una instancia de ManejoUsuarios para acceder a los usuarios
         self.gestor_usuarios = gestor_usuarios
 
     # Agrega un libro a la lista de un usuario
@@ -15,6 +16,7 @@ class ManejoLibros:
                 if "libros" not in u:
                     u["libros"] = []
 
+                # Crear el nuevo libro como un diccionario
                 nuevo_libro = {
                     "referencia": referencia,
                     "titulo": titulo,
@@ -32,15 +34,16 @@ class ManejoLibros:
 
         raise ValueError("Usuario no encontrado")
 
+    # Retorna la lista de libros de un usuario
     def listar_libros(self, usuario):
-        #Devuelve la lista de libros de un usuario
         for u in self.gestor_usuarios.usuarios:
             if u["usuario"] == usuario:
                 return u.get("libros", [])
-        return []
-
+        return [] # Usuario no encontrado, retorna lista vacía
+    
+    #Elimina un libro de un usuario por su referencia
     def eliminar_libro(self, usuario, referencia):
-        #Elimina un libro de un usuario por su referencia
+        
         for u in self.gestor_usuarios.usuarios:
             if u["usuario"] == usuario:
                 libros = u.get("libros", [])
