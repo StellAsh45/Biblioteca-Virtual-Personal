@@ -17,7 +17,7 @@ class BibliotecaGUI:
         self.root.title("Biblioteca Virtual Personal")
         self.root.resizable(False, False) # Evita redimensionamiento
         self.root.configure(bg="#AE9C8F") # Color de fondo
-        self.centrar_ventana(1400, 600) # Centra la ventana en pantalla
+        self.centrar_ventana(1300, 600) # Centra la ventana en pantalla
         # Diccionario para entradas del formulario
         self.entradas = {}
         # Variables de filtros
@@ -131,33 +131,33 @@ class BibliotecaGUI:
         # Titulo inferior
         tk.Label(self.root, text=f"Gracias, {self.usuario}, por usar nuestros servicios 👍",font=("Arial", 16, "bold"),bg="#AE9C8F",fg="#381D03").pack(pady=10)
         # ----------- FILTROS, TABLA Y ESTADÍSTICAS -----------
-        tabla_frame_container = tk.Frame(frame,bg="#AE9C8F") # Contenedor para filtros, tabla y estadísticas
-        tabla_frame_container.pack(side="right", padx=5, pady=10, fill="both") # Fill both para que ocupe todo el espacio disponible
+        tabla_frame_container = tk.Frame(frame,bg="#AE9C8F", width=900) # Contenedor para filtros, tabla y estadísticas
+        tabla_frame_container.pack(side="right", padx=5, pady=10, fill="both", expand=True) # Fill both para que ocupe todo el espacio disponible
         # ----------- FILTROS -----------
         # Seccion de busqueda con criterios: Referencia, Autor, Género, Estado
         filtro_frame = tk.LabelFrame(tabla_frame_container, text="Filtros de búsqueda",font=("Arial", 12, "bold"),bg='#F2E8E1',fg="#381D03",bd=0,labelanchor="n") # LabelFrame para agrupar los filtros
         filtro_frame.pack(side="top", fill="x", pady=(0, 10)) # pady para separar de la tabla
-        # Filtro por referencia
-        tk.Label(filtro_frame, text="Referencia:",bg='#F2E8E1',fg="#381D03").grid(row=0, column=0, padx=5)
-        tk.Entry(filtro_frame, textvariable=self.Referencia_var, width=20).grid(row=0, column=1, padx=5)
+        #  Filtro por referencia
+        tk.Label(filtro_frame, text="Referencia:", bg='#F2E8E1', fg="#381D03").grid(row=0, column=0, padx=7, sticky="w")
+        tk.Entry(filtro_frame, textvariable=self.Referencia_var, width=8).grid(row=0, column=1, padx=7, sticky="w")
         # Filtro por autor
-        tk.Label(filtro_frame, text="Autor:",bg='#F2E8E1',fg="#381D03").grid(row=0, column=2, padx=5)
-        tk.Entry(filtro_frame, textvariable=self.autor_var, width=20).grid(row=0, column=3, padx=5)
+        tk.Label(filtro_frame, text="Autor:", bg='#F2E8E1', fg="#381D03").grid(row=0, column=2, padx=7, sticky="w")
+        tk.Entry(filtro_frame, textvariable=self.autor_var, width=20).grid(row=0, column=3, padx=8, sticky="w")
         # Filtro por género
-        tk.Label(filtro_frame, text="Género:",bg='#F2E8E1',fg="#381D03").grid(row=0, column=4, padx=5)
+        tk.Label(filtro_frame, text="Género:", bg='#F2E8E1', fg="#381D03").grid(row=0, column=4, padx=7, sticky="w")
         ttk.Combobox(filtro_frame, textvariable=self.genero_var,
-                     values=["Novela", "Cuento", "Poesía", "Drama", "Ensayo", "Fábula", "Ciencia Ficción", 
-                                             "Historia", "Fantasía", "Filosofía", "Psicología", "Política", "Economía",
-                                             "Matematicas", "Física", "Química", "Biología", "Medicina", "Informática", 
-                                             "Distopía", "Misterio", "Terror", "Aventura", "Otro"],
-                     state="readonly", width=15).grid(row=0, column=5, padx=5)
+                    values=["Novela", "Cuento", "Poesía", "Drama", "Ensayo", "Fábula", "Ciencia Ficción", 
+                            "Historia", "Fantasía", "Filosofía", "Psicología", "Política", "Economía",
+                            "Matematicas", "Física", "Química", "Biología", "Medicina", "Informática", 
+                            "Distopía", "Misterio", "Terror", "Aventura", "Otro"],state="readonly", width=20).grid(row=0, column=5, padx=7, sticky="w")
         # Filtro por estado
-        tk.Label(filtro_frame, text="Estado:",bg='#F2E8E1',fg="#381D03").grid(row=0, column=6, padx=5)
-        ttk.Combobox(filtro_frame, textvariable=self.estado_var,
-                     values=["", "Leído", "Pendiente"], state="readonly", width=15).grid(row=0, column=7, padx=5)
-        # Botones de aplicar y limpiar filtros
-        tk.Button(filtro_frame, text="Aplicar filtros", command=self.aplicar_filtros, width=15,bg="#A29191",fg="White").grid(row=1, column=3, padx=10, pady=3)
-        tk.Button(filtro_frame, text="Limpiar filtros", command=self.limpiar_filtros, width=15,bg="#A29191",fg="White").grid(row=1, column=4, padx=10)
+        tk.Label(filtro_frame, text="Estado:", bg='#F2E8E1', fg="#381D03").grid(row=0, column=6, padx=8, sticky="w")
+        ttk.Combobox(filtro_frame, textvariable=self.estado_var,values=["", "Leído", "Pendiente"], state="readonly", width=13).grid(row=0, column=7, padx=7, sticky="w")
+        # Botones de aplicar y limpiar filtros (centrados debajo de todos los filtros)
+        btns_frame = tk.Frame(filtro_frame, bg='#F2E8E1')
+        btns_frame.grid(row=1, column=0, columnspan=8, pady=3)
+        tk.Button(btns_frame, text="Aplicar filtros", command=self.aplicar_filtros,width=15, bg="#A29191", fg="White").pack(side="left", padx=10)
+        tk.Button(btns_frame, text="Limpiar filtros", command=self.limpiar_filtros,width=15, bg="#A29191", fg="White").pack(side="left", padx=10)
         # ----------- TABLA -----------
         tabla_frame = tk.Frame(tabla_frame_container) # Contenedor para la tabla y los scrollbars
         tabla_frame.pack(side="top", fill="both",expand=True)
